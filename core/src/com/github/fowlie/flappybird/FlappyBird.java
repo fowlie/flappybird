@@ -17,11 +17,11 @@ public class FlappyBird extends ApplicationAdapter {
     boolean isRunning = false;
 	int width, height;
     SpriteBatch spriteBatch;
-	Texture bg, ground, topPipe;
+	Texture bg, ground, topPipe, bottomPipe;
     Animation birdAnim;
     TextureAtlas textureAtlas;
     float elapsedTime = 0;
-    Vector2 birdPos, groundPos;
+    Vector2 birdPos, groundPos, topPipePos1, topPipePos2, bottomPipePos1, bottomPipePos2;
     float gravity = 5.8f;
     float jump = 200;
     float groundSpeed = 100;
@@ -47,12 +47,21 @@ public class FlappyBird extends ApplicationAdapter {
 		bg = new Texture("bg.png");
         ground = new Texture("ground.png");
         topPipe = new Texture("pipe1.png");
+        bottomPipe = new Texture("pipe2.png");
+        topPipePos1 = new Vector2(width, getRandomTopPipeHeight());
+        bottomPipePos1 = new Vector2(width, topPipePos1.y - 80);
         textureAtlas = new TextureAtlas("bird.txt");
         birdAnim = new Animation(1/15f, textureAtlas.getRegions());
         font = new BitmapFont(Gdx.files.internal("04B_19__-32.fnt"), Gdx.files.internal("font.png"), false);
         birdWidth = birdAnim.getKeyFrame(elapsedTime).getRegionWidth();
         birdHeight = birdAnim.getKeyFrame(elapsedTime).getRegionHeight();
 	}
+
+    private int getRandomTopPipeHeight() {
+        int random = (int) (Math.random() * height/2) + (height / 2);
+        System.out.println(random);
+        return random;
+    }
 
 	@Override
 	public void render () {
@@ -61,6 +70,8 @@ public class FlappyBird extends ApplicationAdapter {
 		spriteBatch.begin();
         spriteBatch.draw(bg, bgPos.x, bgPos.y);
         spriteBatch.draw(bg, bgPos.x + bg.getWidth(), bgPos.y); //Draw two times to animate it
+        spriteBatch.draw(topPipe, topPipePos1.x, topPipePos1.y);
+//        spriteBatch.draw(bottomPipe, bottomPipePos1.x, bottomPipePos1.y);
         elapsedTime += dt();
         spriteBatch.draw(birdAnim.getKeyFrame(elapsedTime, !gameOver), birdPos.x, birdPos.y,
                 birdWidth/2, birdHeight/2, birdWidth, birdHeight, 1, 1, verticalSpeed * 10 * 2);
@@ -70,9 +81,9 @@ public class FlappyBird extends ApplicationAdapter {
             drawDropShadowString(spriteBatch, "Flappy Bird", new Color(1,1,.5f,.9f), 3, width / 5, height - height / 8);
             drawDropShadowString(spriteBatch, "by Fowlie", new Color(1,1,.5f,.9f), 2, width/5, height - height/4);
             drawDropShadowString(spriteBatch, "touch to play", new Color(1,1,.5f,.9f), 2, width/6, height/6);
-            birdPos.y += Math.round(elapsedTime % 10) % 2 == 0 ? 1 : -1;
+            birdPos.y += Math.round(elapsedTime % 10) % 2 == 0 ? 1 : -1; //Fly up and down
 
-        } else if (isRunning && !gameOver) {
+        } else {
             drawDropShadowString(spriteBatch, Integer.toString(score), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
         }
         if (gameOver) {
@@ -99,10 +110,14 @@ public class FlappyBird extends ApplicationAdapter {
             }
         }
 
-        //Move city background
-//        bgPos.x -= .2f * groundSpeed * dt();
-        if (bgPos.x < -bg.getWidth()) {
-            bgPos.x = 0;
+        //Move pipes
+        if (isRunning && !gameOver) {
+            topPipePos1.x -= groundSpeed * dt();
+            if (topPipePos1.x < (0 - topPipe.getWidth())) {
+                topPipePos1.x = width;
+                topPipePos1.y = getRandomTopPipeHeight();
+            }
+            bottomPipePos1.x -= groundSpeed * dt();
         }
 
         collisionDetection();
