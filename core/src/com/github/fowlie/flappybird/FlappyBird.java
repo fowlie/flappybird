@@ -23,7 +23,7 @@ public class FlappyBird extends ApplicationAdapter {
     float elapsedTime = 0;
     Vector2 birdPos, groundPos, topPipePos1, topPipePos2, bottomPipePos1, bottomPipePos2;
     float gravity = 5.8f;
-    float jump = 200;
+    float jump = 250;
     float groundSpeed = 100;
     float verticalSpeed = 0;
     BitmapFont font;
@@ -83,17 +83,28 @@ public class FlappyBird extends ApplicationAdapter {
             drawDropShadowString(spriteBatch, "touch to play", new Color(1,1,.5f,.9f), 2, width/6, height/6);
             birdPos.y += Math.round(elapsedTime % 10) % 2 == 0 ? 1 : -1; //Fly up and down
 
-        } else {
+        } else if (!gameOver) {
             drawDropShadowString(spriteBatch, Integer.toString(score), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
         }
         if (gameOver) {
             drawDropShadowString(spriteBatch, "Game Over", new Color(1,1,.5f,.9f), 3, width / 5, height - height / 3);
+            drawDropShadowString(spriteBatch, "Score: " + Integer.toString(score), new Color(1,1,.5f,.9f), 3, width / 5, height / 2);
         }
 
-        if (Gdx.input.justTouched() && !gameOver) {
-            if (!isRunning) isRunning = true;
-            verticalSpeed += jump * dt();
-            score++;
+        if (Gdx.input.justTouched()) {
+            if (!gameOver) {
+                if (!isRunning) isRunning = true;
+                verticalSpeed += jump * dt();
+                score++;
+            } else {
+                // Reset game
+                gameOver = false;
+                isRunning = false;
+                score = 0;
+                birdPos = new Vector2(width/4, height/2);
+                verticalSpeed = 0;
+                topPipePos1 = new Vector2(width, getRandomTopPipeHeight());
+            }
         }
 
         //Pull the bird down
@@ -126,8 +137,16 @@ public class FlappyBird extends ApplicationAdapter {
     }
 
     private void collisionDetection() {
+        // Ground detection
         if (birdPos.y < ground.getHeight() + (birdHeight / 3)) {
             gameOver = true;
+        }
+
+        // Top pipe detection
+        if (birdPos.y > topPipePos1.y - birdHeight) {
+            if (birdPos.x > topPipePos1.x - birdWidth) {
+                gameOver = true;
+            }
         }
     }
 
