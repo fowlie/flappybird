@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,9 +12,9 @@ enum GameState {MENU,PLAYING,GAME_OVER}
 public class FlappyBird extends ApplicationAdapter {
     GameState gameState = GameState.MENU;
     WorldManager worldManager;
+    TextManager textManager;
     Bird bird;
     SpriteBatch spriteBatch;
-    BitmapFont font;
     int width, height, score = 0;
 
     public FlappyBird(int width, int height) {
@@ -26,9 +25,9 @@ public class FlappyBird extends ApplicationAdapter {
     @Override
 	public void create () {
 		spriteBatch = new SpriteBatch();
+        textManager = new TextManager();
         worldManager = new WorldManager(spriteBatch, width, height);
         bird = new Bird(new Vector2(width/4, height/2));
-        font = new BitmapFont(Gdx.files.internal("04B_19__-32.fnt"), Gdx.files.internal("font.png"), false);
 	}
 
 	@Override
@@ -41,9 +40,9 @@ public class FlappyBird extends ApplicationAdapter {
 
         switch (gameState) {
             case MENU:
-                drawDropShadowString(spriteBatch, "Flappy Bird", new Color(1,1,.5f,.9f), 3, width / 5, height - height / 8);
-                drawDropShadowString(spriteBatch, "by Fowlie", new Color(1,1,.5f,.9f), 2, width/5, height - height/4);
-                drawDropShadowString(spriteBatch, "touch to play", new Color(1,1,.5f,.9f), 2, width/6, height/6);
+                textManager.drawDropShadowString(spriteBatch, "Flappy Bird", new Color(1, 1, .5f, .9f), 3, width / 5, height - height / 8);
+                textManager.drawDropShadowString(spriteBatch, "by Fowlie", new Color(1, 1, .5f, .9f), 2, width / 5, height - height/4);
+                textManager.drawDropShadowString(spriteBatch, "touch to play", new Color(1, 1, .5f, .9f), 2, width /6, height/6);
                 bird.flyUpAndDown();
                 break;
 
@@ -52,7 +51,7 @@ public class FlappyBird extends ApplicationAdapter {
                 if (worldManager.collisionDetection(bird.getPosition(), bird.getHeight(), bird.getWidth())) {
                     nextGameState();
                 } else {
-                    drawDropShadowString(spriteBatch, Integer.toString(score), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
+                    textManager.drawDropShadowString(spriteBatch, Integer.toString(score), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
                     bird.applyGravity();
                 }
                 break;
@@ -60,8 +59,8 @@ public class FlappyBird extends ApplicationAdapter {
             case GAME_OVER:
                 worldManager.stopScrolling();
                 bird.stopAnimate();
-                drawDropShadowString(spriteBatch, "Game Over", new Color(1, 1, .5f, .9f), 3, width / 5, height - height / 3);
-                drawDropShadowString(spriteBatch, "Score: " + Integer.toString(score), new Color(1,1,.5f,.9f), 3, width / 5, height / 2);
+                textManager.drawDropShadowString(spriteBatch, "Game Over", new Color(1, 1, .5f, .9f), 3, width / 5, height - height / 3);
+                textManager.drawDropShadowString(spriteBatch, "Score: " + Integer.toString(score), new Color(1, 1, .5f, .9f), 3, width / 5, height / 2);
                 break;
         }
 
@@ -105,17 +104,10 @@ public class FlappyBird extends ApplicationAdapter {
         nextGameState();
     }
 
-    private void drawDropShadowString(SpriteBatch bgBatch, String text, Color color, int shadowSize, int x, int y) {
-        font.setColor(0f, 0f, 0f, 1f);
-        font.draw(bgBatch, text, x - shadowSize, y - shadowSize);
-        font.setColor(color);
-        font.draw(bgBatch, text, x, y);
-    }
-
     @Override
     public void dispose() {
         spriteBatch.dispose();
         worldManager.dispose();
-        font.dispose();
+        textManager.dispose();
     }
 }
