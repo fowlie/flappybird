@@ -7,15 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-enum GameState {MENU,PLAYING,GAME_OVER}
 
 public class FlappyBird extends ApplicationAdapter {
-    GameState gameState = GameState.MENU;
     WorldManager worldManager;
     TextManager textManager;
+    StateManager stateManager;
     Bird bird;
     SpriteBatch spriteBatch;
     int width, height, score = 0;
+    private Color fontColor = new Color(1, 1, .5f, .9f);;
 
     public FlappyBird(int width, int height) {
         this.width = width;
@@ -26,6 +26,7 @@ public class FlappyBird extends ApplicationAdapter {
 	public void create () {
 		spriteBatch = new SpriteBatch();
         textManager = new TextManager();
+        stateManager = new StateManager();
         worldManager = new WorldManager(spriteBatch, width, height);
         bird = new Bird(new Vector2(width/4, height/2));
 	}
@@ -38,18 +39,18 @@ public class FlappyBird extends ApplicationAdapter {
         worldManager.render();
         bird.draw(spriteBatch);
 
-        switch (gameState) {
+        switch (stateManager.getState()) {
             case MENU:
-                textManager.drawDropShadowString(spriteBatch, "Flappy Bird", new Color(1, 1, .5f, .9f), 3, width / 5, height - height / 8);
-                textManager.drawDropShadowString(spriteBatch, "by Fowlie", new Color(1, 1, .5f, .9f), 2, width / 5, height - height/4);
-                textManager.drawDropShadowString(spriteBatch, "touch to play", new Color(1, 1, .5f, .9f), 2, width /6, height/6);
+                textManager.drawDropShadowString(spriteBatch, "Flappy Bird", fontColor, 3, width / 5, height - height / 8);
+                textManager.drawDropShadowString(spriteBatch, "by Fowlie", fontColor, 2, width / 5, height - height/4);
+                textManager.drawDropShadowString(spriteBatch, "touch to play", fontColor, 2, width /6, height/6);
                 bird.flyUpAndDown();
                 break;
 
             case PLAYING:
                 worldManager.enableScrolling();
                 if (worldManager.collisionDetection(bird.getPosition(), bird.getHeight(), bird.getWidth())) {
-                    nextGameState();
+                    stateManager.nextState();
                 } else {
                     textManager.drawDropShadowString(spriteBatch, Integer.toString(score), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
                     bird.applyGravity();
@@ -59,8 +60,8 @@ public class FlappyBird extends ApplicationAdapter {
             case GAME_OVER:
                 worldManager.stopScrolling();
                 bird.stopAnimate();
-                textManager.drawDropShadowString(spriteBatch, "Game Over", new Color(1, 1, .5f, .9f), 3, width / 5, height - height / 3);
-                textManager.drawDropShadowString(spriteBatch, "Score: " + Integer.toString(score), new Color(1, 1, .5f, .9f), 3, width / 5, height / 2);
+                textManager.drawDropShadowString(spriteBatch, "Game Over", fontColor, 3, width / 5, height - height / 3);
+                textManager.drawDropShadowString(spriteBatch, "Score: " + Integer.toString(score), fontColor, 3, width / 5, height / 2);
                 break;
         }
 
@@ -71,9 +72,9 @@ public class FlappyBird extends ApplicationAdapter {
 
     private void processUserInput() {
         if (Gdx.input.justTouched()) {
-            switch (gameState) {
+            switch (stateManager.getState()) {
                 case MENU:
-                    nextGameState();
+                    stateManager.nextState();
                     bird.jump();
                     break;
                 case PLAYING:
@@ -87,21 +88,13 @@ public class FlappyBird extends ApplicationAdapter {
         }
     }
 
-    private void nextGameState() {
-        switch (gameState) {
-            case MENU:      gameState = GameState.PLAYING; break;
-            case PLAYING:   gameState = GameState.GAME_OVER; break;
-            case GAME_OVER: gameState = GameState.MENU; break;
-        }
-    }
-
     private void resetGame() {
         score = 0;
         bird.animate();
         bird.setPosition(new Vector2(width/4, height/2));
         bird.stopFalling();
         worldManager.resetPipePositions();
-        nextGameState();
+        stateManager.nextState();
     }
 
     @Override
