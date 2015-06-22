@@ -27,7 +27,7 @@ public class FlappyBird extends ApplicationAdapter {
 		spriteBatch = new SpriteBatch();
         textManager = new TextManager();
         stateManager = new StateManager();
-        worldManager = new WorldManager(spriteBatch, width, height);
+        worldManager = new WorldManager(width, height);
         bird = new Bird(new Vector2(width/4, height/2));
 	}
 
@@ -36,7 +36,7 @@ public class FlappyBird extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.begin();
-        worldManager.render();
+        worldManager.render(spriteBatch);
         bird.draw(spriteBatch);
 
         switch (stateManager.getState()) {
@@ -100,7 +100,6 @@ public class FlappyBird extends ApplicationAdapter {
     @Override
     public void dispose() {
         spriteBatch.dispose();
-        worldManager.dispose();
-        textManager.dispose();
+        Resources.dispose();
     }
 }

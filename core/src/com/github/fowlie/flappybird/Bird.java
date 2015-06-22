@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bird {
-
-    private final TextureAtlas textureAtlas;
-    private final Animation birdAnim;
+    private final Animation birdAnim = Resources.ANIM_BIRD;
     private float elapsedTime = 0f, verticalSpeed;
     private boolean animated = true;
     private double jump = 250;
@@ -18,8 +16,6 @@ public class Bird {
 
     public Bird(Vector2 birdPos) {
         this.birdPos = birdPos;
-        textureAtlas = new TextureAtlas("bird.txt");
-        birdAnim = new Animation(1/15f, textureAtlas.getRegions());
     }
 
     public void stopAnimate() {
