@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+import java.util.logging.Logger;
+
 import static com.github.fowlie.flappybird.Resources.*;
 
 public class WorldManager {
+    private final Logger logger = Logger.getLogger(WorldManager.class.getName());
     private boolean scrollPipes = false, scrollGround = true;
     private final Vector2 groundPos;
     private Vector2 topPipePos1;
@@ -36,21 +40,25 @@ public class WorldManager {
     }
 
     public int getRandomTopPipeHeight() {
-        int random = (int) (Math.random() * height/3) + (height / 2);
-        return random;
+        Random random = new Random();
+        int highest = height + (Resources.TEXTURE_PIPE_TOP.getHeight() / 2) - (height / 10);
+        int randomHeight = random.nextInt(highest - height) + height;
+        return randomHeight;
     }
 
     public boolean collisionDetection(Vector2 birdPos, int birdHeight, int birdWidth) {
         boolean collision = false;
         // Ground detection
-        if (birdPos.y < TEXTURE_BACKGROUND.getHeight() + (birdHeight / 3)) {
+        if (birdPos.y < TEXTURE_GROUND.getHeight() + (birdHeight / 3)) {
             collision = true;
+            logger.info("Collided with the ground");
         }
 
         // Top pipe detection
         if (birdPos.y > topPipePos1.y - birdHeight) {
             if (birdPos.x > topPipePos1.x - birdWidth && birdPos.x < topPipePos1.x + TEXTURE_PIPE_TOP.getWidth() - birdWidth/2) {
                 collision = true;
+                logger.info("Collided with the top pipe");
             }
         }
         return collision;
@@ -58,7 +66,7 @@ public class WorldManager {
 
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.draw(TEXTURE_BACKGROUND, bgPos.x, bgPos.y);
-        spriteBatch.draw(TEXTURE_BACKGROUND, bgPos.x + TEXTURE_BACKGROUND.getWidth(), bgPos.y); //Draw two times to animate it
+//        spriteBatch.draw(TEXTURE_BACKGROUND, bgPos.x + TEXTURE_BACKGROUND.getWidth(), bgPos.y); //Draw two times to animate it
         spriteBatch.draw(TEXTURE_PIPE_TOP, topPipePos1.x, topPipePos1.y);
         spriteBatch.draw(TEXTURE_PIPE_BOTTOM, bottomPipePos1.x, bottomPipePos1.y);
         spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
