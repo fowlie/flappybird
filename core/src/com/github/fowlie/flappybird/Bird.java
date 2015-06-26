@@ -3,7 +3,6 @@ package com.github.fowlie.flappybird;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bird {
@@ -13,6 +12,7 @@ public class Bird {
     private double jump = 250;
     Vector2 birdPos;
     private float gravity = 5.8f;
+    private int score = 0;
 
     public Bird(Vector2 birdPos) {
         this.birdPos = birdPos;
@@ -63,5 +63,17 @@ public class Bird {
 
     public Vector2 getPosition() {
         return birdPos;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void resetScore() {
+        score = 0;
+    }
+
+    public void addToScore(int i) {
+        score += i;
     }
 }
