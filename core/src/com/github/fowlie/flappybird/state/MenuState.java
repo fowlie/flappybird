@@ -1,34 +1,30 @@
 package com.github.fowlie.flappybird.state;
 
 import com.badlogic.gdx.Gdx;
-import com.github.fowlie.flappybird.Bird;
 import com.github.fowlie.flappybird.FlappyBird;
-import com.github.fowlie.flappybird.TextManager;
-import com.github.fowlie.flappybird.WorldManager;
+import com.github.fowlie.flappybird.GUI;
+import com.github.fowlie.flappybird.World;
 
 public class MenuState implements State {
-    int width = Gdx.app.getGraphics().getWidth();
-    int height = Gdx.app.getGraphics().getHeight();
-
     public MenuState() {
         Gdx.app.log("MenuState", "Entered the menu state");
     }
 
     @Override
-    public State handleInput(WorldManager worldManager, Bird bird) {
+    public State handleInput(World world) {
         if (Gdx.input.justTouched()) {
-            bird.jump();
+            world.getBird().jump();
             return new PlayingState();
         }
         return this;
     }
 
     @Override
-    public State update(WorldManager worldManager, TextManager textManager, Bird bird) {
-        textManager.drawDropShadowString("Flappy Bird", TextManager.FONT_COLOR, 3, width / 5, height - height / 8);
-        textManager.drawDropShadowString("by Fowlie", TextManager.FONT_COLOR, 2, width / 5, height - height / 4);
-        textManager.drawDropShadowString("touch to play", TextManager.FONT_COLOR, 2, width /6, height / 6);
-        bird.flyUpAndDown();
+    public State update(World world, GUI gui) {
+        gui.drawDropShadowString("Flappy Bird", 3, FlappyBird.WIDTH / 5, FlappyBird.HEIGHT - FlappyBird.HEIGHT/ 8);
+        gui.drawDropShadowString("by Fowlie", FlappyBird.WIDTH / 5, FlappyBird.HEIGHT - FlappyBird.HEIGHT / 4);
+        gui.drawDropShadowString("touch to play", FlappyBird.WIDTH /6, FlappyBird.HEIGHT / 6);
+        world.getBird().flyUpAndDown();
         return this;
     }
 }

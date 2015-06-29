@@ -3,8 +3,8 @@ package com.github.fowlie.flappybird.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.github.fowlie.flappybird.Bird;
-import com.github.fowlie.flappybird.TextManager;
-import com.github.fowlie.flappybird.WorldManager;
+import com.github.fowlie.flappybird.GUI;
+import com.github.fowlie.flappybird.World;
 
 public class PlayingState implements State {
     int width = Gdx.app.getGraphics().getWidth();
@@ -15,24 +15,25 @@ public class PlayingState implements State {
     }
 
     @Override
-    public State handleInput(WorldManager worldManager, Bird bird) {
+    public State handleInput(World world) {
         if (Gdx.input.justTouched()) {
-            bird.jump();
+            world.getBird().jump();
         }
         return this;
     }
 
     @Override
-    public State update(WorldManager worldManager, TextManager textManager, Bird bird) {
-        worldManager.enableScrolling();
-        if (worldManager.collisionDetection(bird.getPosition(), bird.getHeight(), bird.getWidth())) {
+    public State update(World world, GUI gui) {
+        world.enableScrolling();
+        Bird bird = world.getBird();
+        if (world.collisionDetection(bird.getPosition(), bird.getHeight(), bird.getWidth())) {
             return new GameOverState();
         }
-        if (!worldManager.hasPassedPipes() && bird.getPosition().x - bird.getWidth() > worldManager.getTopPipePos().x) {
+        if (!world.hasPassedPipes() && bird.getPosition().x - bird.getWidth() > world.getTopPipePos().x) {
             bird.addToScore(1);
-            worldManager.passedPipes();
+            world.passedPipes();
         }
-        textManager.drawDropShadowString(Integer.toString(bird.getScore()), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
+        gui.drawDropShadowString(Integer.toString(bird.getScore()), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
         bird.applyGravity();
         return this;
     }

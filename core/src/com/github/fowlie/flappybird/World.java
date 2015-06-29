@@ -8,9 +8,8 @@ import java.util.Random;
 
 import static com.github.fowlie.flappybird.Resources.*;
 
-public class WorldManager {
-    int width = Gdx.app.getGraphics().getWidth();
-    int height = Gdx.app.getGraphics().getHeight();
+public class World {
+    private Bird bird;
     private boolean scrollPipes = false, scrollGround = true, passedPipes = false;
     private final Vector2 groundPos;
     private Vector2 topPipePos1;
@@ -19,15 +18,20 @@ public class WorldManager {
     private int pipeGap = 40;
     float groundSpeed = 100;
 
-    public WorldManager() {
-        topPipePos1 = new Vector2(width, getRandomTopPipeHeight());
+    public World() {
+        bird = new Bird(new Vector2(FlappyBird.WIDTH /4, FlappyBird.HEIGHT/2));
+        topPipePos1 = new Vector2(FlappyBird.WIDTH, getRandomTopPipeHeight());
         bottomPipePos1 = getBottomPipePos();
         bgPos = new Vector2(0, 57);
         groundPos = new Vector2(0, 0);
     }
 
+    public Bird getBird() {
+        return bird;
+    }
+
     private Vector2 getBottomPipePos() {
-        return new Vector2(width, topPipePos1.y - TEXTURE_PIPE_BOTTOM.getHeight() - pipeGap);
+        return new Vector2(FlappyBird.WIDTH, topPipePos1.y - TEXTURE_PIPE_BOTTOM.getHeight() - pipeGap);
     }
 
     public Vector2 getTopPipePos() {
@@ -54,9 +58,9 @@ public class WorldManager {
 
     public int getRandomTopPipeHeight() {
         Random random = new Random();
-        int highest = height + (Resources.TEXTURE_PIPE_TOP.getHeight() / 2) - (height / 10);
-        int randomHeight = random.nextInt(highest - height) + height / 2;
-        Gdx.app.log("WorldManager", "New top pipe height pos: " + randomHeight);
+        int highest = FlappyBird.HEIGHT + (Resources.TEXTURE_PIPE_TOP.getHeight() / 2) - (FlappyBird.HEIGHT/ 10);
+        int randomHeight = random.nextInt(highest - FlappyBird.HEIGHT) + FlappyBird.HEIGHT / 2;
+        Gdx.app.log("World", "New top pipe height pos: " + randomHeight);
         return randomHeight;
     }
 
@@ -91,6 +95,7 @@ public class WorldManager {
         spriteBatch.draw(TEXTURE_PIPE_TOP, topPipePos1.x, topPipePos1.y);
         spriteBatch.draw(TEXTURE_PIPE_BOTTOM, bottomPipePos1.x, bottomPipePos1.y);
         spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
+        bird.draw(spriteBatch);
 
         if (scrollGround) scrollGround();
         if (scrollPipes) scrollPipes();
@@ -106,7 +111,7 @@ public class WorldManager {
     private void scrollPipes() {
         topPipePos1.x -= groundSpeed * Gdx.graphics.getDeltaTime();
         if (topPipePos1.x < (0 - TEXTURE_PIPE_TOP.getWidth())) {
-            topPipePos1.x = width;
+            topPipePos1.x = FlappyBird.WIDTH;
             topPipePos1.y = getRandomTopPipeHeight();
             bottomPipePos1 = getBottomPipePos();
             passedPipes = false;
@@ -115,6 +120,6 @@ public class WorldManager {
     }
 
     public void resetPipePositions() {
-        topPipePos1 = new Vector2(width, getRandomTopPipeHeight());
+        topPipePos1 = new Vector2(FlappyBird.WIDTH, getRandomTopPipeHeight());
     }
 }
