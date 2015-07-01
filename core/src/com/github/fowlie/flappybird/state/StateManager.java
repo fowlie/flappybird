@@ -7,7 +7,6 @@ public class StateManager {
     private State state = new MenuState();
 
     public void update(World world, GUI gui) {
-        state = state.handleInput(world);
-        state = state.update(world, gui);
+        state = state.handleInput(world).update(world, gui);
     }
 }
