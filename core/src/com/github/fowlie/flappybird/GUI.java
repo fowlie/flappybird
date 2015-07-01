@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GUI {
-    public static final Color FONT_COLOR = new Color(1, 1, .5f, .9f);
+    public static final Color FONT_YELLOW = new Color(1, 1, .5f, .9f);
+    public static final Color FONT_WHITE = new Color(1, 1, 1, .9f);
     private BitmapFont bitmapFont = Resources.FONT;
     private SpriteBatch spriteBatch;
 
@@ -14,11 +15,11 @@ public class GUI {
     }
 
     public void drawDropShadowString(String text, int x, int y) {
-        drawDropShadowString(text, FONT_COLOR, 2, x, y);
+        drawDropShadowString(text, FONT_YELLOW, 2, x, y);
     }
 
     public void drawDropShadowString(String text, int shadowSize, int x, int y) {
-        drawDropShadowString(text, FONT_COLOR, shadowSize, x, y);
+        drawDropShadowString(text, FONT_YELLOW, shadowSize, x, y);
     }
 
     public void drawDropShadowString(String text, Color color, int shadowSize, int x, int y) {

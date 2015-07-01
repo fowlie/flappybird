@@ -3,13 +3,11 @@ package com.github.fowlie.flappybird.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.github.fowlie.flappybird.Bird;
+import com.github.fowlie.flappybird.FlappyBird;
 import com.github.fowlie.flappybird.GUI;
 import com.github.fowlie.flappybird.World;
 
 public class PlayingState implements State {
-    int width = Gdx.app.getGraphics().getWidth();
-    int height = Gdx.app.getGraphics().getHeight();
-
     public PlayingState() {
         Gdx.app.log("PlayingState", "Entered the playing state");
     }
@@ -33,7 +31,8 @@ public class PlayingState implements State {
             bird.addToScore(1);
             world.passedPipes();
         }
-        gui.drawDropShadowString(Integer.toString(bird.getScore()), new Color(1, 1, 1, .9f), 3, width / 2, height - height / 10);
+        String score = Integer.toString(bird.getScore());
+        gui.drawDropShadowString(score, GUI.FONT_WHITE, 3, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT - FlappyBird.HEIGHT / 10);
         bird.applyGravity();
         return this;
     }
