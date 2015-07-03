@@ -19,7 +19,7 @@ public class Pipes {
     public Vector2 getRandomTopPipePos() {
         Random random = new Random();
         int highest = FlappyBird.HEIGHT + (Assets.TEXTURE_PIPE_TOP.getHeight() / 2) - (FlappyBird.HEIGHT/ 10);
-        int randomHeight = random.nextInt(highest - FlappyBird.HEIGHT) + FlappyBird.HEIGHT / 2;
+        int randomHeight = (int) (random.nextInt(highest - FlappyBird.HEIGHT) + FlappyBird.HEIGHT / 1.5);
         Gdx.app.log("World", "New top pipe height pos: " + randomHeight);
         return new Vector2(FlappyBird.WIDTH, randomHeight);
     }
