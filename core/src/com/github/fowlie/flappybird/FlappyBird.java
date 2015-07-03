@@ -39,6 +39,6 @@ public class FlappyBird extends ApplicationAdapter {
     @Override
     public void dispose() {
         spriteBatch.dispose();
-        Resources.dispose();
+        Assets.dispose();
     }
 }

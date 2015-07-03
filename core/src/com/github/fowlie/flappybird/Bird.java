@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bird {
-    private final Animation birdAnim = Resources.ANIM_BIRD;
+    private final Animation birdAnim = Assets.ANIM_BIRD;
     private float elapsedTime = 0f, verticalSpeed;
     private boolean animated = true;
     private double jump = 250;

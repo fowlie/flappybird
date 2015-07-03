@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Resources {
+public class Assets {
     public static final BitmapFont FONT = new BitmapFont(Gdx.files.internal("04B_19__-32.fnt"), Gdx.files.internal("font.png"), false);
     public static final TextureAtlas TEXTURE_ATLAS_BIRD = new TextureAtlas("bird.txt");
     public static final Animation ANIM_BIRD = new Animation(1 / 15f, TEXTURE_ATLAS_BIRD.getRegions());

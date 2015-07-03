@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GUI {
     public static final Color FONT_YELLOW = new Color(1, 1, .5f, .9f);
     public static final Color FONT_WHITE = new Color(1, 1, 1, .9f);
-    private BitmapFont bitmapFont = Resources.FONT;
+    private BitmapFont bitmapFont = Assets.FONT;
     private SpriteBatch spriteBatch;
 
     public GUI(SpriteBatch spriteBatch) {

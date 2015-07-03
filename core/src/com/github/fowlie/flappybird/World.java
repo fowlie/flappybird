@@ -3,10 +3,9 @@ package com.github.fowlie.flappybird;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.LinkedList;
 
-import static com.github.fowlie.flappybird.Resources.*;
+import static com.github.fowlie.flappybird.Assets.*;
 
 public class World {
     private Bird bird;
