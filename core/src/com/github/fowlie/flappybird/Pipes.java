@@ -9,8 +9,9 @@ import static com.github.fowlie.flappybird.Assets.TEXTURE_PIPE_BOTTOM;
 
 public class Pipes {
     private Vector2 topPipe, bottomPipe;
+    private int pipeGap = FlappyBird.HEIGHT / 5;
 
-    protected Pipes(int pipeGap) {
+    protected Pipes() {
         this.topPipe = getRandomTopPipePos();
         this.bottomPipe = new Vector2(FlappyBird.WIDTH, topPipe.y - TEXTURE_PIPE_BOTTOM.getHeight() - pipeGap);
     }

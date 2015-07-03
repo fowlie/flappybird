@@ -13,12 +13,11 @@ public class World {
     private final Vector2 groundPos;
     private LinkedList<Pipes> pipes = new LinkedList<Pipes>();
     private final Vector2 bgPos;
-    private int pipeGap = FlappyBird.HEIGHT / 5;
     float groundSpeed = 100;
 
     public World() {
         bird = new Bird(new Vector2(FlappyBird.WIDTH /4, FlappyBird.HEIGHT/2));
-        pipes.add(new Pipes(pipeGap));
+        pipes.add(new Pipes());
         bgPos = new Vector2(0, 57);
         groundPos = new Vector2(0, 0);
     }
@@ -66,7 +65,7 @@ public class World {
         }
 
         // Bottom pipe detection
-        if (birdPos.y < pipes.getFirst().getBottomPipe().y - birdHeight) {
+        if (birdPos.y < pipes.getFirst().getBottomPipe().y + TEXTURE_PIPE_BOTTOM.getHeight()) {
             if (birdPos.x > pipes.getFirst().getBottomPipe().x - birdWidth && birdPos.x < pipes.getFirst().getBottomPipe().x + TEXTURE_PIPE_BOTTOM.getWidth() - birdWidth/2) {
                 collision = true;
                 Gdx.app.log("Physics", "Collided with the bottom pipe");
@@ -96,7 +95,7 @@ public class World {
         pipes.getFirst().getTopPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
         if (pipes.getFirst().getTopPipe().x < (0 - TEXTURE_PIPE_TOP.getWidth())) {
             pipes.removeFirst();
-            pipes.add(new Pipes(pipeGap));
+            pipes.add(new Pipes());
             passedPipes = false;
         }
         pipes.getFirst().getBottomPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
@@ -104,6 +103,6 @@ public class World {
 
     public void resetPipePositions() {
         pipes.removeFirst();
-        pipes.add(new Pipes(pipeGap));
+        pipes.add(new Pipes());
     }
 }
