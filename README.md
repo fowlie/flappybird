@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/fowlie/flappybird.svg?branch=master)](https://travis-ci.org/fowlie/flappybird)
-[![Project Status](https://stillmaintained.com/fowlie/flappybird.png)](https://stillmaintained.com/fowlie/flappybird)
+[![Maintainer Status](http://stillmaintained.com/fowlie/flappybird.png)](http://stillmaintained.com/fowlie/flappybird)
 FlappyBird
 ==========
 
