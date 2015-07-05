@@ -13,6 +13,8 @@ public class FlappyBird extends ApplicationAdapter {
     private World world;
     private GUI gui;
 
+    public FlappyBird() {}
+
     public FlappyBird(int width, int height) {
         WIDTH = width;
         HEIGHT = height;
