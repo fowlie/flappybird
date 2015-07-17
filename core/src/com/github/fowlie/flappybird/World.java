@@ -92,13 +92,15 @@ public class World {
     }
 
     private void scrollPipes() {
-        pipes.getFirst().getTopPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
-        if (pipes.getFirst().getTopPipe().x < (0 - TEXTURE_PIPE_TOP.getWidth())) {
-            pipes.removeFirst();
+        for (Pipes p : pipes) p.getTopPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
+        for (Pipes p : pipes) p.getBottomPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
+        if (pipes.getFirst().getTopPipe().x < FlappyBird.HEIGHT / 6 && pipes.size() < 2) {
             pipes.add(new Pipes());
+        }
+        if (pipes.getFirst().getTopPipe().x < -TEXTURE_PIPE_BOTTOM.getWidth()) {
+            pipes.removeFirst();
             passedPipes = false;
         }
-        pipes.getFirst().getBottomPipe().x -= groundSpeed * Gdx.graphics.getDeltaTime();
     }
 
     public void resetPipePositions() {
