@@ -21,6 +21,7 @@ public class MenuState implements State {
 
     @Override
     public State update(World world, GUI gui) {
+        world.enableBackgroundScrolling();
         gui.drawDropShadowString("Flappy Bird", 3, FlappyBird.WIDTH / 5, FlappyBird.HEIGHT - FlappyBird.HEIGHT/ 8);
         gui.drawDropShadowString("by Fowlie", FlappyBird.WIDTH / 5, FlappyBird.HEIGHT - FlappyBird.HEIGHT / 4);
         gui.drawDropShadowString("touch to play", FlappyBird.WIDTH /6, FlappyBird.HEIGHT / 6);

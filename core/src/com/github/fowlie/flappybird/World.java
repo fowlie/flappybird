@@ -37,6 +37,10 @@ public class World {
         passedPipes = true;
     }
 
+    public void enableBackgroundScrolling() {
+        scrollBackground = true;
+    }
+
     public void enableScrolling() {
         scrollPipes = true;
         scrollBackground = true;
