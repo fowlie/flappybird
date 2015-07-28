@@ -9,4 +9,4 @@ Inspired by Bob Nystrom's [gameprogrammingpatterns.com](http://gameprogrammingpa
 ![Screenshot 1](screenshots/screencast.gif)
 
 # How do I play it?
-Open up your terminal and type ```gradlew :desktop:run```
+Open up your terminal and type ```gradlew :desktop:run``` (on Mac, use ```./gradlew :desktop:run```)
