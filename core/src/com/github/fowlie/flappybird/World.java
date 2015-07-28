@@ -9,16 +9,15 @@ import static com.github.fowlie.flappybird.Assets.*;
 
 public class World {
     private Bird bird;
-    private boolean scrollPipes = false, scrollGround = true, passedPipes = false;
-    private final Vector2 groundPos;
+    private boolean scrollPipes = false, scrollBackground = true, passedPipes = false;
+    private final Vector2 groundPos, backgroundPos;
     private LinkedList<Pipes> pipes = new LinkedList<Pipes>();
-    private final Vector2 bgPos;
     float groundSpeed = 100;
 
     public World() {
         bird = new Bird(new Vector2(FlappyBird.WIDTH /4, FlappyBird.HEIGHT/2));
         pipes.add(new Pipes());
-        bgPos = new Vector2(0, 57);
+        backgroundPos = new Vector2(0, 57);
         groundPos = new Vector2(0, 0);
     }
 
@@ -40,12 +39,12 @@ public class World {
 
     public void enableScrolling() {
         scrollPipes = true;
-        scrollGround = true;
+        scrollBackground = true;
     }
 
     public void stopScrolling() {
         scrollPipes = false;
-        scrollGround = false;
+        scrollBackground = false;
     }
 
     public boolean collisionDetection(Vector2 birdPos, int birdHeight, int birdWidth) {
@@ -75,19 +74,24 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(TEXTURE_BACKGROUND, bgPos.x, bgPos.y);
+        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x, backgroundPos.y);
+        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x + Assets.TEXTURE_BACKGROUND.getWidth(), backgroundPos.y);
         for (Pipes pipe : pipes) pipe.draw(spriteBatch);
         spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
         bird.draw(spriteBatch);
 
-        if (scrollGround) scrollGround();
+        if (scrollBackground) scrollBackground();
         if (scrollPipes) scrollPipes();
     }
 
-    private void scrollGround() {
+    private void scrollBackground() {
         groundPos.x -= groundSpeed * Gdx.graphics.getDeltaTime();
         if (groundPos.x < -50) {
             groundPos.x = 0;
+        }
+        backgroundPos.x -= groundSpeed * 0.2 * Gdx.graphics.getDeltaTime();
+        if (backgroundPos.x < -Assets.TEXTURE_BACKGROUND.getWidth()) {
+            backgroundPos.x = 0;
         }
     }
 
