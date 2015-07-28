@@ -25,7 +25,7 @@ public class PlayingState implements State {
         world.enableScrolling();
         Bird bird = world.getBird();
         if (world.collisionDetection(bird.getPosition(), bird.getHeight(), bird.getWidth())) {
-            return new GameOverState();
+            return new GameOverState(world.getBird().getScore());
         }
         if (!world.hasPassedPipes() && bird.getPosition().x - bird.getWidth() > world.getTopPipePos().x) {
             bird.addToScore(1);
