@@ -78,6 +78,7 @@ public class World {
         spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x + Assets.TEXTURE_BACKGROUND.getWidth(), backgroundPos.y);
         for (Pipes pipe : pipes) pipe.draw(spriteBatch);
         spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
+        spriteBatch.draw(TEXTURE_GROUND, groundPos.x + Assets.TEXTURE_GROUND.getWidth(), groundPos.y);
         bird.draw(spriteBatch);
 
         if (scrollBackground) scrollBackground();
@@ -86,7 +87,7 @@ public class World {
 
     private void scrollBackground() {
         groundPos.x -= groundSpeed * Gdx.graphics.getDeltaTime();
-        if (groundPos.x < -50) {
+        if (groundPos.x < -Assets.TEXTURE_GROUND.getWidth()) {
             groundPos.x = 0;
         }
         backgroundPos.x -= groundSpeed * 0.2 * Gdx.graphics.getDeltaTime();
