@@ -113,7 +113,7 @@ public class World {
     }
 
     public void resetPipePositions() {
-        pipes.removeFirst();
+        pipes = new LinkedList<Pipes>();
         pipes.add(new Pipes());
     }
 }
