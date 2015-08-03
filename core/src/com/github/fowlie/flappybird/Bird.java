@@ -9,9 +9,9 @@ public class Bird {
     private final Animation birdAnim = Assets.ANIM_BIRD;
     private float elapsedTime = 0f, verticalSpeed;
     private boolean animated = true;
-    private double jump = 250;
-    Vector2 birdPos;
-    private float gravity = 5.8f;
+    private double jump = 200;
+    private Vector2 birdPos;
+    private float gravity = 8f;
     private int score = 0;
 
     public Bird(Vector2 birdPos) {
@@ -37,11 +37,11 @@ public class Bird {
     public void draw(SpriteBatch spriteBatch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
         spriteBatch.draw(birdAnim.getKeyFrame(elapsedTime, animated), birdPos.x, birdPos.y,
-                getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, verticalSpeed * 10 * 2);
+                getWidth()/2, getHeight()/2, getWidth(), getHeight(), 1, 1, verticalSpeed * 10);
     }
 
     public void jump() {
-        verticalSpeed += jump * Gdx.graphics.getDeltaTime();
+        verticalSpeed = (float) (jump * Gdx.graphics.getDeltaTime());
     }
 
     public void stopFalling() {
