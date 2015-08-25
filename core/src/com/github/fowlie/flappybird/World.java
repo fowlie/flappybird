@@ -1,6 +1,7 @@
 package com.github.fowlie.flappybird;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ public class World {
     public World() {
         bird = new Bird(new Vector2(FlappyBird.WIDTH /4, FlappyBird.HEIGHT/2));
         pipes.add(new Pipes());
-        backgroundPos = new Vector2(0, 57);
+        backgroundPos = new Vector2(0, 96);
         groundPos = new Vector2(0, 0);
     }
 
