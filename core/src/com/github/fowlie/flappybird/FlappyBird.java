@@ -37,6 +37,7 @@ public class FlappyBird extends ApplicationAdapter {
         spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
         world.render(spriteBatch);
+        world.update();
         stateManager.update(world, gui);
         spriteBatch.end();
     }

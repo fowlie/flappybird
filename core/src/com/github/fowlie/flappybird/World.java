@@ -79,15 +79,26 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x, backgroundPos.y);
-        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x + Assets.TEXTURE_BACKGROUND.getWidth(), backgroundPos.y);
+        drawBackground(spriteBatch);
         for (Pipes pipe : pipes) pipe.draw(spriteBatch);
-        spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
-        spriteBatch.draw(TEXTURE_GROUND, groundPos.x + Assets.TEXTURE_GROUND.getWidth(), groundPos.y);
+        drawGround(spriteBatch);
         bird.draw(spriteBatch);
+    }
 
+    public void update() {
         if (scrollBackground) scrollBackground();
         if (scrollPipes) scrollPipes();
+    }
+
+    private void drawGround(SpriteBatch spriteBatch) {
+        spriteBatch.draw(TEXTURE_GROUND, groundPos.x, groundPos.y);
+        spriteBatch.draw(TEXTURE_GROUND, groundPos.x + Assets.TEXTURE_GROUND.getWidth(), groundPos.y);
+    }
+
+    private void drawBackground(SpriteBatch spriteBatch) {
+        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x, backgroundPos.y);
+        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x + Assets.TEXTURE_BACKGROUND.getWidth(), backgroundPos.y);
+        spriteBatch.draw(TEXTURE_BACKGROUND, backgroundPos.x + Assets.TEXTURE_BACKGROUND.getWidth() * 2, backgroundPos.y);
     }
 
     private void scrollBackground() {
